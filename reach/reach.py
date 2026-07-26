@@ -1,7 +1,7 @@
 import mujoco
 import numpy as np
 
-model = mujoco.MjModel.from_xml_path("mujoco_menagerie/franka_emika_panda/scene.xml")
+model = mujoco.MjModel.from_xml_path("franka_emika_panda/scene.xml")
 
 # 从 model 中提取关节限位（自动匹配）
 q_min = np.array([model.jnt_range[i][0] for i in range(model.njnt)])
@@ -21,6 +21,11 @@ print("q_random:", q_random)
 for i in range(model.nsite):
     print(i, model.site(i).name)
 
+print("model.nsite:", model.nsite)
+
+# 查看所有 body 名称
+for i in range(model.nbody):
+    print(f"Body {i}: {mujoco.mj_id2name(model, mujoco.mjtObj.mjOBJ_BODY, i)}")
 
 
-
+    

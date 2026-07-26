@@ -2,7 +2,7 @@ import mujoco
 import mujoco.viewer
 
 # 修改成你的实际路径
-xml_path = "./mujoco_menagerie/franka_emika_panda/scene.xml"
+xml_path = "franka_emika_panda/scene.xml"
 
 # 加载模型
 model = mujoco.MjModel.from_xml_path(xml_path)
