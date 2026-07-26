@@ -52,16 +52,17 @@ tasks = [
 # 3. 设置初始关节角
 # ==========================
 
-q = custom_configuration_vector(
-        robot,
-        panda_joint1=0.0,
-        panda_joint2=-0.785398,
-        panda_joint3=0.0,
-        panda_joint4=-2.35619,
-        panda_joint5=0.0,
-        panda_joint6=1.5708,
-        panda_joint7=0.785398,
-    )
+q = np.array([
+    0.0,
+    -0.785398,
+    0.0,
+    -2.35619,
+    0.0,
+    1.5708,
+    0.785398,
+    0,
+    0,
+])
 
 
 configuration = pink.Configuration(
