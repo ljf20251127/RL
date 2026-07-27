@@ -7,16 +7,21 @@ import pink
 from pink import solve_ik
 from pink.tasks import FrameTask, PostureTask
 from pink.utils import custom_configuration_vector
-
+import pinocchio as pin
 
 # ==========================
 # 1. 加载 Panda URDF
 # ==========================
 
-robot = load_robot_description(
-    "panda_description",
-    root_joint=None,
+
+
+urdf_path = "robot_models/panda.urdf"
+
+model = pin.buildModelFromUrdf(
+    urdf_path
 )
+
+data = model.createData()
 
 
 # ==========================
@@ -66,8 +71,8 @@ q = np.array([
 
 
 configuration = pink.Configuration(
-    robot.model,
-    robot.data,
+    model,
+    data,
     q,
 )
 
