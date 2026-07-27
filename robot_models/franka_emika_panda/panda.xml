@@ -239,6 +239,11 @@
                         <geom class="fingertip_pad_collision_4"/>
                         <geom class="fingertip_pad_collision_5"/>
                       </body>
+                      <site
+                        name="panda_hand_tcp"
+                        pos="0 0 0.1034"
+                        size="0.005"
+                        rgba="1 0 0 1"/>
                     </body>
                   </body>
                 </body>
