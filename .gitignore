@@ -2,3 +2,4 @@
 .vscode/
 externals/*
 temp*
+__pycache__/
