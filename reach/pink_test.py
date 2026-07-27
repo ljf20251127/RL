@@ -145,6 +145,13 @@ for i in range(200):
         velocity,
         dt,
     )
+    T_now = configuration.get_transform_frame_to_world(frame_name)
+    error = np.linalg.norm(
+        target_position - T_now.translation
+    )
+    if error < 1e-4:
+        print("error<1e-4 step:", i)
+        break
 
 
     if i % 20 == 0:
