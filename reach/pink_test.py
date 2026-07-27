@@ -77,7 +77,7 @@ configuration = pink.Configuration(
 )
 
 
-configuration.update(q)
+# configuration.update(q)
 
 
 # posture目标设为当前姿态
