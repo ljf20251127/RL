@@ -29,6 +29,8 @@ class MyMujoco:
         self.data = mujoco.MjData(
             self.model
         )
+        self.reset()
+        
 
     #随机关节角度，2个夹抓设为0
     def get_random_angles(self):
@@ -39,6 +41,7 @@ class MyMujoco:
         )
         random_q[7:] = 0.0
         return random_q
+
     
     def reset(self):
         self.data.qpos[:] = self.origin_q.copy()
