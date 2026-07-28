@@ -24,7 +24,7 @@ class MyMujoco:
                 0.0
             ], dtype=float)
         else:
-            self.origin_q = origin_q
+            self.origin_q = origin_q.copy()
 
         self.data = mujoco.MjData(
             self.model
@@ -32,8 +32,12 @@ class MyMujoco:
 
     #随机关节角度，2个夹抓设为0
     def get_random_angles(self):
-        random_q = np.random.uniform(self.q_min, self.q_max)
-        random_q[-2:] = 0.0
+        random_q = np.zeros(self.model.nq)
+        random_q[:7] = np.random.uniform(
+            self.q_min[:7], 
+            self.q_max[:7]
+        )
+        random_q[7:] = 0.0
         return random_q
     
     def reset(self):
