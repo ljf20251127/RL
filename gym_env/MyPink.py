@@ -3,10 +3,12 @@ import pink
 import pinocchio as pin
 from pink.tasks import FrameTask, PostureTask
 
+# origin_q为初始关节角度9个关节，后两个默认为0
 class MyPink:
-    def __init__(self, urdf_path, frame_name, q, dt=0.01, solver="daqp"):
+    def __init__(self, urdf_path, frame_name, origin_q, dt=0.01, solver="daqp"):
 
         self.frame_name = frame_name
+        self.origin_q = origin_q
         self.dt = dt
         self.solver = solver
 
@@ -19,7 +21,7 @@ class MyPink:
         self.configuration = pink.Configuration(
             model,
             data,
-            q,
+            self.origin_q,
         )
 
         # 控制末端位置
@@ -41,8 +43,16 @@ class MyPink:
             self.end_effector_task,
             self.posture_task,
         ]
+    def reset(self):
+        self.configuration.q = self.origin_q.copy()
+        self.configuration.update()
+        self.posture_task.set_target_from_configuration(
+            self.configuration
+        )
 
+    # 返回9个关节的角度
     def solve(self, target_position):
+        success = False
         # 姿态目标即为原姿态
         self.posture_task.set_target_from_configuration(
             self.configuration
@@ -76,7 +86,7 @@ class MyPink:
             error = np.linalg.norm(
                 target_position - T_now.translation
             )
-            if error < 1e-4:
+            if error < 1e-3:
+                success = True
                 break
-
-        return self.configuration.q
+        return self.configuration.q, success

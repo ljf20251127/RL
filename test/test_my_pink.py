@@ -20,6 +20,7 @@ pink_env = MyPink(
     "panda_hand_tcp",
     q
 )
+pink_env.reset()
 print("init:", time.time() - t0)
 target_position = np.array([
     0.5,

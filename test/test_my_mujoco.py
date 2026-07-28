@@ -7,8 +7,12 @@ mujoco_env = MyMujoco(
 )
 print(mujoco_env.get_random_angles())
 
+print(mujoco_env.model.opt.timestep)
+print(mujoco_env.get_pos())
 # 打开 Viewer
+'''
 with mujoco.viewer.launch_passive(mujoco_env.model, mujoco_env.data) as viewer:
     while viewer.is_running():
         mujoco.mj_step(mujoco_env.model, mujoco_env.data)
         viewer.sync()
+        '''
