@@ -1,4 +1,5 @@
 import numpy as np
+from typing import Optional
 import gymnasium as gym
 
 class panda_reach(gym.env):
@@ -16,6 +17,12 @@ class panda_reach(gym.env):
             high = np.array([0.01,0.01,0.01]),
             dtype = np.float
         )
+    def reset(self, seed: Optional[int] = None, options: Optional[dict] = None):
+        super().reset(seed=seed)
+
+
+
     # action参数满足action_space
     def step(self, action):
-        
+      pass
+

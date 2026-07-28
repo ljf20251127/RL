@@ -9,9 +9,11 @@ q_max = np.array([mj_model.jnt_range[i][1] for i in range(mj_model.njnt)])
 
 q_min = q_min[:-2]
 q_max = q_max[:-2]
+q_mean = 0.5 * (q_min + q_max)
 
 print("q_min:", q_min)
 print("q_max:", q_max)
+print("q_mean:", q_mean)
 
 q_random = np.random.uniform(q_min, q_max)
 
