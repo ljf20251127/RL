@@ -21,7 +21,7 @@ class MyPink:
         self.configuration = pink.Configuration(
             model,
             data,
-            self.origin_q,
+            self.origin_q
         )
 
         # 控制末端位置
@@ -44,7 +44,7 @@ class MyPink:
             self.posture_task,
         ]
     def reset(self):
-        self.configuration.q = self.origin_q.copy()
+        self.configuration.q = self.origin_q
         self.configuration.update()
         self.posture_task.set_target_from_configuration(
             self.configuration
@@ -90,3 +90,10 @@ class MyPink:
                 success = True
                 break
         return self.configuration.q, success
+    def update(self, q):
+        q = np.append(q[:7].copy(), [0.0, 0.0])
+        self.configuration.q = q.copy()
+        self.configuration.update()
+        self.posture_task.set_target_from_configuration(
+            self.configuration
+        )

@@ -12,22 +12,9 @@ obs, info = env.reset()
 
 print("initial obs:", obs)
 
-for i in range(50):
-    # 比例控制：步长随误差变小，避免来回振荡
-    max_step = 0.05
-    k = 0.5  # 可调增益
-    action = np.clip(k * obs, -max_step, max_step)
 
-    obs, reward, terminated, truncated, info = env.step(action)
 
-    distance = np.linalg.norm(obs)
-    print("step:", i, "distance:", distance, "reward:", reward)
 
-    if terminated or truncated:
-        print("episode end")
-        break
-
-'''
 for i in range(100):
 
     # obs = goal - current_pos
@@ -56,6 +43,6 @@ for i in range(100):
     if terminated or truncated:
         print("episode end")
         break
-'''
+
 
 env.close()

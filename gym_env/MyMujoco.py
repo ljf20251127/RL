@@ -5,7 +5,7 @@ class MyMujoco:
     # origin_q须在关节限位内，可为9个关节，也可为7个
     # frame_skip为每次step，mujoco执行多少次mj_step
     # self.origin_q是9个关节的角度，两个夹抓设为0
-    def __init__(self, xml_path, origin_q=None,frame_skip=11):
+    def __init__(self, xml_path, origin_q=None,frame_skip=40):
         self.model = mujoco.MjModel.from_xml_path(xml_path)
         self.frame_skip = frame_skip
 
@@ -49,6 +49,8 @@ class MyMujoco:
             raise RuntimeError(
                 f"Cannot find site: {site_name}"
             )
+        
+
 
     #随机关节角度，2个夹抓设为0
     def get_random_angles(self):
@@ -64,7 +66,11 @@ class MyMujoco:
     def reset(self):
         self.data.qpos[:] = self.origin_q.copy()
         self.data.qvel[:] = 0
+        self.data.qacc[:] = 0
         self.data.ctrl[:] = 0
+
+        self.data.qfrc_applied[:] = 0      # 广义力
+        self.data.xfrc_applied[:] = 0      # 笛卡尔力
 
         mujoco.mj_forward(
         self.model,
@@ -73,12 +79,17 @@ class MyMujoco:
     # q_target可以为9个关节，也可为7个
     # 执行frame_skip次mj_step
     def step(self, q_target):
+        # print("target", q_target)
+        # print("before:", self.data.qpos)
+
         self.data.ctrl[:7] = q_target[:7]
         for _ in range(self.frame_skip):
             mujoco.mj_step(
                 self.model,
                 self.data
             )
+        mujoco.mj_forward(self.model, self.data)
+        # print("after:", self.data.qpos)
 
     def get_pos(self):
         return self.data.site_xpos[self.site_id].copy()

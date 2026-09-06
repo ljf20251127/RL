@@ -15,8 +15,8 @@ class PandaReach(gym.Env):
         )
         # dx dy dz
         self.action_space = gym.spaces.Box(
-            low = np.array([-0.004,-0.004,-0.004], dtype = np.float32),
-            high = np.array([0.004,0.004,0.004], dtype = np.float32),
+            low = np.array([-0.2,-0.2,-0.2], dtype = np.float32),
+            high = np.array([0.2,0.2,0.2], dtype = np.float32),
             dtype = np.float32
         )
         self.mujoco = MyMujoco(
@@ -34,7 +34,7 @@ class PandaReach(gym.Env):
         self.space_min = np.array([0.3,-0.3,0.3], dtype=np.float32)
         self.space_max = np.array([0.9,0.3,0.85], dtype=np.float32)
 
-        self.max_step = 100
+        self.max_step = 300
         self.step_count = 0
         
     def reset(self, seed: Optional[int] = None, options: Optional[dict] = None):
@@ -65,12 +65,13 @@ class PandaReach(gym.Env):
             self.space_min,
             self.space_max
         )
-
+        self.pink.update(self.mujoco.data.qpos)
         target_q, ik_success = self.pink.solve(target_pos)
         if not ik_success:
             terminated = True
 
         self.mujoco.step(target_q)
+        
         observation = self.get_obs()
         dist = np.linalg.norm(observation)
 
